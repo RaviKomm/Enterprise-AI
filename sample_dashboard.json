@@ -1,0 +1,28 @@
+{
+  "annotations": {"list": []},
+  "panels": [
+    {
+      "type": "graph",
+      "title": "p95 latency (seconds)",
+      "id": 1,
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(ai_request_duration_seconds_bucket[5m])) by (le))",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Requests per second",
+      "id": 2,
+      "targets": [
+        {
+          "expr": "sum(rate(ai_requests_total[1m]))",
+          "refId": "B"
+        }
+      ]
+    }
+  ],
+  "title": "Reliability & Ethics (sample)"
+}

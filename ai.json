@@ -1,0 +1,51 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "ai-metrics",
+    "title": "AI Metrics Dashboard",
+    "timezone": "browser",
+    "panels": [
+      {
+        "type": "timeseries",
+        "title": "AI Requests Total",
+        "datasource": "prometheus",
+        "targets": [
+          {
+            "expr": "sum by(outcome) (rate(ai_requests_total[1m]))",
+            "legendFormat": "{{outcome}}",
+            "interval": "",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"x":0,"y":0,"w":12,"h":6},
+        "options": {
+          "legend": {"showLegend": true, "placement":"bottom"},
+          "tooltip": {"mode":"single"}
+        }
+      },
+      {
+        "type": "timeseries",
+        "title": "AI Request Duration (95th Percentile)",
+        "datasource": "prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum by(le) (rate(ai_request_duration_seconds_bucket[1m])))",
+            "legendFormat": "95th percentile",
+            "interval": "",
+            "refId": "B"
+          }
+        ],
+        "gridPos": {"x":0,"y":6,"w":12,"h":6},
+        "options": {
+          "legend": {"showLegend": true, "placement":"bottom"},
+          "tooltip": {"mode":"single"}
+        }
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 1,
+    "time": {"from":"now-1h","to":"now"},
+    "refresh": "10s"
+  },
+  "overwrite": true
+}

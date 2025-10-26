@@ -1,0 +1,18 @@
+groups:
+- name: ai_alerts
+  rules:
+  - alert: HighP95Latency
+    expr: histogram_quantile(0.95, sum(rate(ai_request_duration_seconds_bucket[1m])) by (le)) > 0.5
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "p95 latency > 500ms"
+
+  - alert: ElevatedErrorRate
+    expr: rate(ai_requests_total{outcome="error"}[1m]) > 0.05
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Error rate > 5% in last minute"
